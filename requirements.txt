@@ -16,6 +16,7 @@ psycopg2-binary==2.9.10
 werkzeug==3.0.1
 email-validator==2.1.1
 requests==2.32.3
+python-dotenv==1.0.1
 
 # Note: In Replit, these packages are managed through the package manager
 # and shouldn't be directly installed through requirements.txt.
