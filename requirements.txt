@@ -11,7 +11,7 @@ gunicorn==23.0.0
 # Database
 sqlalchemy==2.0.28
 psycopg2-binary==2.9.10
-supabase-py==1.0.3
+supabase-py
 
 # Utilities
 werkzeug==3.0.1
