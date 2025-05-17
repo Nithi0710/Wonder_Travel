@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+
+{% block title %}Book Your Journey - WonderTravel{% endblock %}
+
+{% block content %}
+<!-- Booking Hero -->
+<section class="hero" style="height: 30vh;">
+    <div class="container">
+        <div class="hero-content animate-fadeIn">
+            <h1 class="hero-title">Book Your Dream Vacation</h1>
+            <p class="hero-subtitle">Complete the steps below to secure your journey to {{ destination.name }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Process -->
+<section class="booking-process">
+    <div class="container">
+        <!-- Booking Steps -->
+        <div class="booking-steps animate-fadeIn">
+            <div class="booking-step active"><div class="booking-step-number">1</div><div class="booking-step-label">Number of Travelers</div></div>
+            <div class="booking-step"><div class="booking-step-number">2</div><div class="booking-step-label">Journey Dates</div></div>
+            <div class="booking-step"><div class="booking-step-number">3</div><div class="booking-step-label">Traveler Details</div></div>
+            <div class="booking-step"><div class="booking-step-number">4</div><div class="booking-step-label">Contact Information</div></div>
+            <div class="booking-step"><div class="booking-step-number">5</div><div class="booking-step-label">Review & Confirm</div></div>
+        </div>
+
+        <!-- Destination Information -->
+        <div class="booking-destination animate-fadeIn">
+            <img src="{{ destination.image_url }}" alt="{{ destination.name }}" class="booking-destination-img">
+            <div>
+                <h3 id="destination-name">{{ destination.name }}</h3>
+                <p>{{ destination.description }}</p>
+                <p class="destination-price" id="destination-price" data-price="{{ destination.price }}">Price per person: ₹{{ "{:,.0f}".format(destination.price) }}</p>
+                <input type="hidden" id="destination-id" value="{{ destination.id }}">
+            </div>
+        </div>
+
+        <!-- Booking Form -->
+        <form id="booking-form" class="booking-form" method="POST" action="">
+            <!-- Step 1: Number of Adults -->
+            <div class="booking-section active">
+                <h3>How many adults are traveling?</h3>
+                <div class="form-group">
+                    <label for="num-adults" class="form-label">Number of Adults</label>
+                    <input type="number" name="num-adults" id="num-adults" class="form-control" min="1" max="10" value="1" required>
+                    <small style="display: block; margin-top: 5px; opacity: 0.7;">Maximum 10 adults per booking</small>
+                </div>
+                <div class="booking-nav"><div></div><button type="button" class="booking-next">Next <i class="fas fa-arrow-right"></i></button></div>
+            </div>
+
+            <!-- Step 2: Journey Dates -->
+            <div class="booking-section">
+                <h3>When would you like to travel?</h3>
+                <div class="form-group">
+                    <label for="start-date" class="form-label">Start Date</label>
+                    <input type="date" name="start-date" id="start-date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="end-date" class="form-label">End Date</label>
+                    <input type="date" name="end-date" id="end-date" class="form-control" required>
+                </div>
+                <div class="booking-nav">
+                    <button type="button" class="booking-prev"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="booking-next">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 3: Traveler Details -->
+            <div class="booking-section">
+                <h3>Enter traveler details</h3>
+                <div id="traveler-forms"></div>
+                <div class="booking-nav">
+                    <button type="button" class="booking-prev"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="booking-next">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 4: Contact Information -->
+            <div class="booking-section">
+                <h3>Contact Information</h3>
+                <div class="form-group">
+                    <label for="contact-email" class="form-label">Email Address</label>
+                    <input type="email" name="contact-email" id="contact-email" class="form-control" required>
+                    <small style="display: block; margin-top: 5px; opacity: 0.7;">We'll send booking confirmation to this email</small>
+                </div>
+                <div class="form-group">
+                    <label for="contact-phone" class="form-label">Phone Number</label>
+                    <input type="tel" name="contact-phone" id="contact-phone" class="form-control" required>
+                    <small style="display: block; margin-top: 5px; opacity: 0.7;">For urgent communications only</small>
+                </div>
+                <div class="booking-nav">
+                    <button type="button" class="booking-prev"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="booking-next">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 5: Review & Confirm -->
+            <div class="booking-section">
+                <h3>Review Your Booking</h3>
+                <div id="booking-summary" class="booking-summary"></div>
+                <div class="form-group" style="margin-top: 2rem;">
+                    <div class="form-check">
+                        <input type="checkbox" id="terms-check" class="form-check-input" required>
+                        <label for="terms-check" class="form-check-label">I agree to the <a href="#" target="_blank">terms and conditions</a></label>
+                    </div>
+                </div>
+                <div class="booking-nav">
+                    <button type="button" class="booking-prev"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="submit" class="booking-next booking-submit">Proceed to Payment <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Hidden Inputs for submission -->
+            <input type="hidden" name="num-adults" id="hidden-num-adults">
+            <input type="hidden" name="start-date" id="hidden-start-date">
+            <input type="hidden" name="end-date" id="hidden-end-date">
+            <input type="hidden" name="contact-email" id="hidden-contact-email">
+            <input type="hidden" name="contact-phone" id="hidden-contact-phone">
+            <input type="hidden" name="travelers_json" id="travelers-json"> <!-- Added hidden for travelers -->
+
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+{% endblock %}

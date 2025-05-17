@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Login - WonderTravel{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container animate-fadeIn">
+        <h2 class="form-title">Welcome Back!</h2>
+        
+        <form action="{{ url_for('login') }}" method="post">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            
+            <button type="submit" class="form-btn glow-btn">Login</button>
+            
+            <div class="form-footer">
+                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Decorative Background Elements -->
+<div class="blinking-stars"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create animated background elements
+        const container = document.querySelector('.blinking-stars');
+        createRandomStars(container, 70);
+    });
+</script>
+{% endblock %}

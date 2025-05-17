@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign Up - WonderTravel{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container animate-fadeIn">
+        <h2 class="form-title">Create Your Account</h2>
+        
+        <form action="{{ url_for('signup') }}" method="post">
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+                <small style="display: block; margin-top: 5px; opacity: 0.7;">Password must be at least 6 characters long</small>
+            </div>
+            
+            <button type="submit" class="form-btn glow-btn">Sign Up</button>
+            
+            <div class="form-footer">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Decorative Background Elements -->
+<div class="blinking-stars"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create animated background elements
+        const container = document.querySelector('.blinking-stars');
+        createRandomStars(container, 70);
+        
+        // Simple form validation
+        const form = document.querySelector('form');
+        const passwordInput = document.getElementById('password');
+        
+        form.addEventListener('submit', function(e) {
+            if (passwordInput.value.length < 6) {
+                e.preventDefault();
+                alert('Password must be at least 6 characters long');
+            }
+        });
+    });
+</script>
+{% endblock %}

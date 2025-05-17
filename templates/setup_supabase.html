@@ -1,0 +1,345 @@
+{% extends "layout.html" %}
+
+{% block title %}Set Up Supabase - Tourist Management System{% endblock %}
+
+{% block extra_css %}
+<style>
+    .setup-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 30px;
+        background: rgba(12, 12, 40, 0.8);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .setup-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .setup-header h1 {
+        color: #fff;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .setup-header p {
+        color: #aaa;
+        font-size: 1.1rem;
+    }
+    
+    .setup-steps {
+        margin-top: 30px;
+    }
+    
+    .step {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(20, 20, 50, 0.6);
+        border-radius: 10px;
+        border-left: 4px solid #7e57c2;
+    }
+    
+    .step h2 {
+        color: #7e57c2;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .step h2 span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: #7e57c2;
+        color: #fff;
+        border-radius: 50%;
+        margin-right: 15px;
+        font-size: 1.2rem;
+    }
+    
+    .step p {
+        color: #ddd;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+    
+    .step pre {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+        color: #aaffaa;
+        margin: 15px 0;
+    }
+    
+    .step ul {
+        color: #ddd;
+        margin-left: 30px;
+        margin-bottom: 15px;
+    }
+    
+    .step li {
+        margin-bottom: 8px;
+    }
+    
+    .step code {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 3px 6px;
+        border-radius: 3px;
+        color: #ff9800;
+    }
+    
+    .env-var {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        border-radius: 5px;
+    }
+    
+    .env-var strong {
+        min-width: 180px;
+        color: #7e57c2;
+    }
+    
+    .env-var span {
+        color: #ff9800;
+        font-family: monospace;
+        word-break: break-all;
+    }
+    
+    .back-btn {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 25px;
+        background: #7e57c2;
+        color: white;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: all 0.3s;
+        box-shadow: 0 5px 15px rgba(126, 87, 194, 0.4);
+    }
+    
+    .back-btn:hover {
+        background: #6a3cb5;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(126, 87, 194, 0.5);
+    }
+    
+    .copy-btn {
+        background: #4a3cb5;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 0.8rem;
+    }
+    
+    .copy-btn:hover {
+        background: #392d9c;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="setup-container">
+    <div class="setup-header">
+        <h1>Supabase Setup Guide</h1>
+        <p>Follow these steps to connect your Tourist Management System to Supabase</p>
+    </div>
+    
+    <div class="setup-steps">
+        <div class="step">
+            <h2><span>1</span> Create a Supabase Account</h2>
+            <p>If you don't already have a Supabase account, you'll need to create one.</p>
+            <ul>
+                <li>Go to <a href="https://supabase.com" target="_blank">https://supabase.com</a></li>
+                <li>Click "Start your project" or "Sign up"</li>
+                <li>Complete the registration process</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <h2><span>2</span> Create a New Supabase Project</h2>
+            <p>Set up a new project in your Supabase dashboard.</p>
+            <ul>
+                <li>Go to <a href="https://app.supabase.com" target="_blank">https://app.supabase.com</a></li>
+                <li>Click "New Project"</li>
+                <li>Fill in the project details:
+                    <ul>
+                        <li>Name: "Tourist Management System" (or your preferred name)</li>
+                        <li>Database Password: Create a secure password</li>
+                        <li>Region: Choose the region closest to you</li>
+                    </ul>
+                </li>
+                <li>Click "Create new project"</li>
+                <li>Wait for your project to be created (this may take a few minutes)</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <h2><span>3</span> Set Up Database Tables</h2>
+            <p>Create the necessary database tables using the SQL Editor in Supabase.</p>
+            <ul>
+                <li>In your Supabase project dashboard, go to the "SQL Editor" section in the left sidebar</li>
+                <li>Click "New query"</li>
+                <li>Copy and paste the following SQL into the editor:</li>
+            </ul>
+            <pre id="sql-script">-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(64) NOT NULL UNIQUE,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    password_hash VARCHAR(256) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Destinations table
+CREATE TABLE IF NOT EXISTS destinations (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    price NUMERIC(10, 2) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bookings table
+CREATE TABLE IF NOT EXISTS bookings (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    destination_id INTEGER NOT NULL REFERENCES destinations(id) ON DELETE CASCADE,
+    start_date TIMESTAMP WITH TIME ZONE NOT NULL,
+    end_date TIMESTAMP WITH TIME ZONE NOT NULL,
+    num_adults INTEGER NOT NULL,
+    contact_email VARCHAR(120) NOT NULL,
+    contact_phone VARCHAR(20) NOT NULL,
+    total_price NUMERIC(10, 2) NOT NULL,
+    payment_status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT valid_dates CHECK (end_date > start_date)
+);
+
+-- Travelers table
+CREATE TABLE IF NOT EXISTS travelers (
+    id SERIAL PRIMARY KEY,
+    booking_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    age INTEGER NOT NULL
+);
+
+-- Function to automatically update updated_at column
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger for destinations table
+CREATE OR REPLACE TRIGGER update_destinations_updated_at
+BEFORE UPDATE ON destinations
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_column();
+
+-- Add admin user (with password 'admin123')
+INSERT INTO users (username, email, password_hash, is_admin)
+VALUES ('admin', 'admin@touristmanager.com', 'pbkdf2:sha256:600000$0L3dDcUX0GECEtC9$8a06ca2b98fd61f97f7d74b8db9fd1f3fdccb1d6c1c6fdf2f83b8791d4f97c62', TRUE)
+ON CONFLICT (username) DO NOTHING;
+
+-- Sample destinations data
+INSERT INTO destinations (name, description, image_url, price)
+VALUES 
+    ('Bali, Indonesia', 'Tropical paradise with beautiful beaches, lush rice terraces, and vibrant cultural experiences.', 'https://pixabay.com/get/g2adc42670f0e611903a17264efabf3277016727e81da6176d2cb3068c34df874916a2cfd8f975dfa57c30bc9b6344c98d28728d477cfa7f3f3872a8352eae355_1280.jpg', 75000),
+    ('Venice, Italy', 'Romantic city built on canals, famous for its stunning architecture and gondola rides.', 'https://pixabay.com/get/g6e81d4bc7abdc1867b658052cc9ada0c61aebd444e3be1077089e6a0ec4f3933453d93a3dd2a507021086c56dcca08041e82738b1338bb46574a26462980bf1c_1280.jpg', 125000),
+    ('Santorini, Greece', 'Stunning island with white-washed buildings, blue domes, and breathtaking sunset views.', 'https://pixabay.com/get/gf73de5a8be940841cd391df203d43a59f736236caa94480d70fcda43590496aff4706e7756eae57cb00e4a89dad217ab577484838188d9cb6f75da4999abc55b_1280.jpg', 95000)
+ON CONFLICT (id) DO NOTHING;</pre>
+            <button class="copy-btn" onclick="copyToClipboard('sql-script')">Copy SQL</button>
+            <p>Click "Run" to execute the SQL and create the tables.</p>
+        </div>
+        
+        <div class="step">
+            <h2><span>4</span> Get Connection Details</h2>
+            <p>Collect the necessary connection details from your Supabase project.</p>
+            
+            <h3>Database URL</h3>
+            <ul>
+                <li>In your Supabase project, go to Settings > Database</li>
+                <li>In the "Connection string" section, find the "URI" connection string</li>
+                <li>Copy the PostgreSQL connection string</li>
+                <li>Replace <code>[YOUR-PASSWORD]</code> with your database password</li>
+            </ul>
+            
+            <h3>Project URL and API Key</h3>
+            <ul>
+                <li>Go to Settings > API</li>
+                <li>Copy the "Project URL" (starts with https://...)</li>
+                <li>Under "Project API keys", copy the "anon" key (public)</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <h2><span>5</span> Set Environment Variables</h2>
+            <p>Add the connection details as environment variables in your deployment environment.</p>
+            
+            <div class="env-var">
+                <strong>DATABASE_URL</strong>
+                <span>Your Supabase PostgreSQL connection string (from Step 4)</span>
+            </div>
+            
+            <div class="env-var">
+                <strong>SUPABASE_URL</strong>
+                <span>Your Supabase project URL (from Step 4)</span>
+            </div>
+            
+            <div class="env-var">
+                <strong>SUPABASE_ANON_KEY</strong>
+                <span>Your Supabase anonymous API key (from Step 4)</span>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2><span>6</span> Restart Your Application</h2>
+            <p>Restart the Tourist Management System to apply the changes.</p>
+            <p>Your application should now be using Supabase as the database backend!</p>
+        </div>
+    </div>
+    
+    <div style="text-align: center;">
+        <a href="/" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId);
+        const text = element.textContent;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const button = event.target;
+            const originalText = button.textContent;
+            
+            button.textContent = "Copied!";
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    }
+</script>
+{% endblock %}

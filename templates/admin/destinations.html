@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Destinations - WonderTravel Admin</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/svgs/solid/plane-departure.svg" type="image/svg+xml">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin-panel">
+    <!-- Mobile Toggle -->
+    <div class="admin-mobile-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2><i class="fas fa-globe-americas"></i> WonderTravel</h2>
+            </div>
+            
+            <ul class="admin-menu">
+                <li class="admin-menu-item">
+                    <a href="{{ url_for('admin_dashboard') }}" class="admin-menu-link">
+                        <i class="fas fa-tachometer-alt admin-menu-icon"></i>
+                        <span class="admin-menu-text">Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="{{ url_for('admin_destinations') }}" class="admin-menu-link active">
+                        <i class="fas fa-map-marked-alt admin-menu-icon"></i>
+                        <span class="admin-menu-text">Destinations</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-users admin-menu-icon"></i>
+                        <span class="admin-menu-text">Users</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-bookmark admin-menu-icon"></i>
+                        <span class="admin-menu-text">Bookings</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-chart-bar admin-menu-icon"></i>
+                        <span class="admin-menu-text">Reports</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-cog admin-menu-icon"></i>
+                        <span class="admin-menu-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="admin-logout">
+                <a href="{{ url_for('admin_logout') }}" class="admin-logout-btn">
+                    <i class="fas fa-sign-out-alt admin-logout-icon"></i>
+                    <span class="admin-logout-text">Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Flash Messages -->
+            <div id="alerts">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="admin-alert admin-alert-{{ category }}">
+                                <p>{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            
+            <h1>Manage Destinations</h1>
+            
+            <!-- Add Destination Form -->
+            <div class="admin-form-container">
+                <h2 class="admin-form-title">Add New Destination</h2>
+                
+                <form id="add-destination-form">
+                    <div class="admin-form-group">
+                        <label for="destination-name" class="admin-form-label">Destination Name</label>
+                        <input type="text" id="destination-name" class="admin-form-control" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="destination-description" class="admin-form-label">Description</label>
+                        <textarea id="destination-description" class="admin-form-control" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="destination-image" class="admin-form-label">Image URL</label>
+                        <input type="url" id="destination-image" class="admin-form-control" required>
+                    </div>
+                    
+                    <div class="admin-img-preview-container">
+                        <img id="image-preview" class="admin-img-preview" style="display: none;">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="destination-price" class="admin-form-label">Price (₹)</label>
+                        <input type="number" id="destination-price" class="admin-form-control" min="1000" step="1000" required>
+                    </div>
+                    
+                    <div class="admin-form-actions">
+                        <button type="submit" class="admin-btn admin-btn-primary">
+                            <i class="fas fa-plus admin-btn-icon"></i> Add Destination
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Destinations Table -->
+            <div class="admin-table-container">
+                <div class="admin-table-header">
+                    <h2>All Destinations</h2>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="destinations-list">
+                        <!-- Destinations will be loaded dynamically -->
+                        <tr>
+                            <td colspan="5" class="text-center">Loading destinations...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Destination Modal -->
+    <div id="edit-destination-modal" class="admin-modal-backdrop">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 class="admin-modal-title">Edit Destination</h3>
+                <button id="close-edit-modal" class="admin-modal-close">&times;</button>
+            </div>
+            
+            <div class="admin-modal-body">
+                <div id="edit-alerts"></div>
+                
+                <form id="edit-destination-form">
+                    <input type="hidden" id="edit-destination-id">
+                    
+                    <div class="admin-form-group">
+                        <label for="edit-destination-name" class="admin-form-label">Destination Name</label>
+                        <input type="text" id="edit-destination-name" class="admin-form-control" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="edit-destination-description" class="admin-form-label">Description</label>
+                        <textarea id="edit-destination-description" class="admin-form-control" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="edit-destination-image" class="admin-form-label">Image URL</label>
+                        <input type="url" id="edit-destination-image" class="admin-form-control" required>
+                    </div>
+                    
+                    <div class="admin-img-preview-container">
+                        <img id="edit-image-preview" class="admin-img-preview" style="display: none;">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="edit-destination-price" class="admin-form-label">Price (₹)</label>
+                        <input type="number" id="edit-destination-price" class="admin-form-control" min="1000" step="1000" required>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="admin-modal-footer">
+                <button class="admin-btn admin-btn-secondary" id="close-edit-modal-btn">Cancel</button>
+                <button type="submit" form="edit-destination-form" class="admin-btn admin-btn-primary">Update Destination</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Scripts -->
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script>
+        // Additional event listener for close button in modal footer
+        document.getElementById('close-edit-modal-btn')?.addEventListener('click', function() {
+            document.getElementById('edit-destination-modal').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

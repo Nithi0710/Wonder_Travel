@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Booking Success - WonderTravel{% endblock %}
+
+{% block content %}
+<section class="hero" style="height: 30vh; text-align: center;">
+    <div class="container">
+        <div class="hero-content animate-fadeIn">
+            <h1 class="hero-title" style="font-size: 3rem; color: green;">✅ Successfully Booked!</h1>
+            <p class="hero-subtitle" style="font-size: 1.5rem;">Thank you, {{ booking.contact_email }}. Your journey to <strong>{{ destination.name }}</strong> is confirmed! 🎉</p>
+        </div>
+    </div>
+</section>
+
+<section class="booking-details">
+    <div class="container animate-fadeIn">
+        <div class="card" style="max-width: 600px; margin: auto; padding: 2rem; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+            <h2 style="color: #333;">🧾 Booking Summary</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li><strong>📍 Destination:</strong> {{ destination.name }}</li>
+                <li><strong>📅 Start Date:</strong> {{ booking.start_date }}</li>
+                <li><strong>📅 End Date:</strong> {{ booking.end_date }}</li>
+                <li><strong>👥 Number of Adults:</strong> {{ booking.num_adults }}</li>
+                <li><strong>📧 Email:</strong> {{ booking.contact_email }}</li>
+                <li><strong>📞 Phone:</strong> {{ booking.contact_phone }}</li>
+                <li><strong>💰 Total Price:</strong> ₹{{ "{:,.0f}".format(booking.total_price) }}</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-success">Go to Dashboard</a>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">Book Another Journey</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

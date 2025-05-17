@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}My Dashboard - WonderTravel{% endblock %}
+
+{% block content %}
+<!-- Dashboard Hero -->
+<section class="hero" style="height: 30vh;">
+    <div class="container">
+        <div class="hero-content animate-fadeIn">
+            <h1 class="hero-title">Welcome to Your Dashboard</h1>
+            <p class="hero-subtitle">Manage your journeys and explore your travel history</p>
+        </div>
+    </div>
+</section>
+
+<!-- Simple Booking List -->
+<section class="container" style="margin-top: 2rem;">
+  <h2>Welcome, {{ username }}!</h2>
+
+  <h3>Your Bookings</h3>
+
+  {% if bookings %}
+    <ul class="booking-list">
+    {% for booking in bookings %}
+      <li style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #ddd; border-radius: 6px;">
+        <strong>Destination:</strong> {{ booking.destination.name if booking.destination else "Unknown" }}<br>
+        <strong>Dates:</strong> {{ booking.start_date }} to {{ booking.end_date }}<br>
+        <strong>Adults:</strong> {{ booking.num_adults }}<br>
+        <strong>Status:</strong> {{ booking.payment_status }}<br>
+        <strong>Total Price:</strong> ₹{{ "{:,.0f}".format(booking.total_price) }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have no bookings yet.</p>
+  {% endif %}
+</section>
+
+<!-- Rest of your dashboard content here... -->
+
+{% endblock %}

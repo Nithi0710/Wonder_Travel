@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}Payment - WonderTravel{% endblock %}
+
+{% block content %}
+<!-- Payment Hero -->
+<section class="hero" style="height: 30vh;">
+    <div class="container">
+        <div class="hero-content animate-fadeIn">
+            <h1 class="hero-title">Complete Your Payment</h1>
+            <p class="hero-subtitle">You're just one step away from securing your journey to {{ destination.name }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- Payment Section -->
+<section class="payment-process">
+    <div class="container">
+        <!-- Booking Summary -->
+        <div class="booking-summary animate-fadeIn">
+            <h3 class="summary-title">Booking Summary</h3>
+            
+            <div class="summary-item">
+                <span>Destination:</span>
+                <span>{{ destination.name }}</span>
+            </div>
+            
+            <div class="summary-item">
+                <span>Journey Dates:</span>
+                <span>{{ booking.start_date.strftime('%d %b, %Y') }} - {{ booking.end_date.strftime('%d %b, %Y') }}</span>
+            </div>
+            
+            <div class="summary-item">
+                <span>Number of Travelers:</span>
+                <span>{{ booking.num_adults }}</span>
+            </div>
+            
+            <div class="summary-item">
+                <span>Price per Person:</span>
+                <span>₹{{ "{:,.0f}".format(destination.price) }}</span>
+            </div>
+            
+            <div class="summary-total">
+                <span>Total Price:</span>
+                <span>₹{{ "{:,.0f}".format(booking.total_price) }}</span>
+            </div>
+        </div>
+        
+        <!-- Payment Methods -->
+        <h3 style="margin: 2rem 0 1rem;">Select Payment Method</h3>
+        
+        <div class="payment-methods animate-fadeIn">
+            <div class="payment-method selected">
+                <div class="payment-method-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h4>Credit/Debit Card</h4>
+                <p>Pay securely with your credit or debit card</p>
+            </div>
+            
+            <div class="payment-method">
+                <div class="payment-method-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h4>Net Banking</h4>
+                <p>Direct bank transfer from your account</p>
+            </div>
+            
+            <div class="payment-method">
+                <div class="payment-method-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h4>UPI / Wallets</h4>
+                <p>Pay using UPI, Paytm, or other digital wallets</p>
+            </div>
+        </div>
+        
+        <!-- Credit Card Form (shown by default) -->
+        <div class="payment-form animate-fadeIn">
+            <div class="form-group">
+                <label for="card-number" class="form-label">Card Number</label>
+                <input type="text" id="card-number" class="form-control" placeholder="1234 5678 9012 3456">
+            </div>
+            
+            <div style="display: flex; gap: 1rem;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="card-expiry" class="form-label">Expiry Date</label>
+                    <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY">
+                </div>
+                
+                <div class="form-group" style="flex: 1;">
+                    <label for="card-cvv" class="form-label">CVV</label>
+                    <input type="text" id="card-cvv" class="form-control" placeholder="123">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="card-name" class="form-label">Cardholder Name</label>
+                <input type="text" id="card-name" class="form-control" placeholder="John Doe">
+            </div>
+        </div>
+        
+        <!-- Note: In a real application, you would implement proper payment gateway integration -->
+        <!-- For this demo, we'll just simulate a successful payment -->
+        
+        <div style="margin-top: 2rem; text-align: center;">
+            <p style="margin-bottom: 1rem; opacity: 0.7;">By clicking "Complete Payment", you agree to our terms and conditions.</p>
+            <button id="complete-payment-btn" class="payment-btn glow-btn" data-booking-id="{{ booking.id }}">Complete Payment</button>
+        </div>
+        
+        <div style="margin-top: 2rem; text-align: center; opacity: 0.7;">
+            <p><i class="fas fa-lock"></i> Your payment information is encrypted and secure</p>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                <i class="fab fa-cc-visa fa-2x"></i>
+                <i class="fab fa-cc-mastercard fa-2x"></i>
+                <i class="fab fa-cc-amex fa-2x"></i>
+                <i class="fab fa-cc-discover fa-2x"></i>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simple form field validation
+        const cardNumberInput = document.getElementById('card-number');
+        const cardExpiryInput = document.getElementById('card-expiry');
+        const cardCvvInput = document.getElementById('card-cvv');
+        const cardNameInput = document.getElementById('card-name');
+        const paymentButton = document.getElementById('complete-payment-btn');
+        
+        if (paymentButton) {
+            // For demo purposes, we'll bypass actual validation
+            // In a real app, you would implement proper validation and payment processing
+            
+            // Just for visual feedback, add an event listener to form fields
+            const formFields = [cardNumberInput, cardExpiryInput, cardCvvInput, cardNameInput];
+            
+            formFields.forEach(field => {
+                if (field) {
+                    field.addEventListener('input', function() {
+                        // Simple visual validation check (not real validation)
+                        paymentButton.style.opacity = allFieldsHaveValue(formFields) ? '1' : '0.7';
+                    });
+                }
+            });
+        }
+        
+        // Helper function to check if all fields have values
+        function allFieldsHaveValue(fields) {
+            return fields.every(field => field && field.value.trim() !== '');
+        }
+    });
+</script>
+{% endblock %}

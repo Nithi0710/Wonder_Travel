@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - WonderTravel</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/svgs/solid/plane-departure.svg" type="image/svg+xml">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin-panel">
+    <div class="admin-login-container">
+        <div class="admin-login-card">
+            <div class="admin-login-logo">
+                <h2><i class="fas fa-globe-americas"></i> WonderTravel</h2>
+            </div>
+            
+            <h3 class="admin-login-title">Admin Login</h3>
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="admin-alert admin-alert-{{ category }}">
+                                <p>{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <form action="{{ url_for('admin_login') }}" method="post">
+                <div class="admin-login-form-group">
+                    <label for="username" class="admin-login-form-label">Username</label>
+                    <input type="text" id="username" name="username" class="admin-login-form-control" required>
+                </div>
+                
+                <div class="admin-login-form-group">
+                    <label for="password" class="admin-login-form-label">Password</label>
+                    <input type="password" id="password" name="password" class="admin-login-form-control" required>
+                </div>
+                
+                <button type="submit" class="admin-login-btn">Login</button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="{{ url_for('index') }}" style="color: var(--admin-accent);">
+                    <i class="fas fa-arrow-left"></i> Back to Website
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Background Animation -->
+    <div class="blinking-stars"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create animated background elements
+            const container = document.querySelector('.blinking-stars');
+            
+            // Function to create random stars
+            function createRandomStars(count) {
+                for (let i = 0; i < count; i++) {
+                    const star = document.createElement('div');
+                    star.style.position = 'absolute';
+                    star.style.width = Math.random() * 3 + 1 + 'px';
+                    star.style.height = star.style.width;
+                    star.style.backgroundColor = 'white';
+                    star.style.borderRadius = '50%';
+                    star.style.opacity = Math.random() * 0.8 + 0.2;
+                    
+                    // Random position
+                    star.style.top = Math.random() * 100 + 'vh';
+                    star.style.left = Math.random() * 100 + 'vw';
+                    
+                    // Add blinking animation
+                    const animationDuration = Math.random() * 3 + 2;
+                    star.style.animation = `blink ${animationDuration}s infinite`;
+                    
+                    container.appendChild(star);
+                }
+            }
+            
+            // Create CSS animation
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes blink {
+                    0%, 100% { opacity: 0.2; }
+                    50% { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            createRandomStars(70);
+        });
+    </script>
+</body>
+</html>

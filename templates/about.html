@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+
+{% block title %}About Us - WonderTravel{% endblock %}
+
+{% block content %}
+<!-- About Hero Section -->
+<section class="hero" style="height: 50vh;">
+    <div class="container">
+        <div class="hero-content animate-fadeIn">
+            <h1 class="hero-title">About WonderTravel</h1>
+            <p class="hero-subtitle">Crafting unforgettable travel experiences since 2010</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Content Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text animate-fadeIn">
+                <h2>Our Story</h2>
+                <p>WonderTravel was founded in 2010 by a group of passionate travelers who believed that exploring the world should be accessible to everyone. What started as a small travel agency has now grown into one of India's leading tourist management systems, helping thousands of travelers create memories that last a lifetime.</p>
+                <p>Our mission is to provide exceptional travel experiences that inspire, educate, and connect people from all walks of life. We carefully curate destinations that showcase the beauty, culture, and uniqueness of each location, ensuring that every journey with us is special.</p>
+                <p>Over the years, we've built strong relationships with local partners around the world, allowing us to offer authentic experiences at competitive prices without compromising on quality or safety.</p>
+            </div>
+            
+            <div class="about-image animate-fadeIn" data-delay="0.2">
+                <img src="https://pixabay.com/get/gef0d7da5e2b1d81cb4d2dc1ee5396fa8917cc21f3f0847a897468ad956b25fd763550fe53bee363fa861f5c6a0c17a092ecaa22d077a58eecc0997aea9b448c1_1280.jpg" alt="Travel Planning">
+            </div>
+        </div>
+        
+        <h2 class="section-title animate-fadeIn" data-delay="0.3">What Sets Us Apart</h2>
+        
+        <div class="about-features">
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.4">
+                <div class="feature-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="feature-title">Passion for Travel</h3>
+                <p>Our team consists of experienced travelers who are passionate about sharing the beauty of the world with others.</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.5">
+                <div class="feature-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3 class="feature-title">Quality Experiences</h3>
+                <p>We personally vet all our destinations and partners to ensure the highest standards of quality and authenticity.</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.6">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title">Customer-Centric Approach</h3>
+                <p>Your satisfaction is our top priority, and we go above and beyond to customize experiences to your preferences.</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.7">
+                <div class="feature-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="feature-title">Global Network</h3>
+                <p>Our extensive network of partners around the world allows us to offer exclusive access and special rates.</p>
+            </div>
+        </div>
+        
+        <div class="about-content" style="margin-top: 3rem;">
+            <div class="about-image animate-fadeIn" data-delay="0.8">
+                <img src="https://pixabay.com/get/g9e556ebd772b1302ffc1b8b1fece3b8297afde0e69107b286d042d9057c3104b1b90b7089ed3cf63fd5a36b0aea8c5abad8f961a33140d98d0b4d0903b3b0a01_1280.jpg" alt="Adventure Tourism">
+            </div>
+            
+            <div class="about-text animate-fadeIn" data-delay="0.9">
+                <h2>Our Commitment to Responsible Tourism</h2>
+                <p>At WonderTravel, we believe in the power of travel to create positive change. We are committed to promoting responsible and sustainable tourism practices that respect local cultures, protect natural environments, and support local economies.</p>
+                <p>For every booking made through our platform, we contribute a portion of our proceeds to conservation efforts and community development projects in the destinations we serve.</p>
+                <p>We also encourage our travelers to engage respectfully with local communities, minimize their environmental footprint, and contribute positively to the places they visit.</p>
+            </div>
+        </div>
+        
+        <div class="about-content" style="margin-top: 3rem; text-align: center;">
+            <div class="animate-fadeIn" data-delay="1.0" style="max-width: 800px; margin: 0 auto;">
+                <h2>Meet Our Team</h2>
+                <p>Our dedicated team of travel experts, customer support specialists, and technology professionals work tirelessly to ensure that your travel experience is seamless, enjoyable, and memorable.</p>
+                <p>With decades of combined experience in the travel industry and a shared passion for exploration, our team is uniquely positioned to help you discover the world's most amazing destinations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+    <div class="container">
+        <div class="feature-card animate-fadeIn" style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <h2>Ready to Start Your Adventure?</h2>
+            <p>Join thousands of satisfied travelers who have explored the world with WonderTravel.</p>
+            <div style="margin-top: 20px;">
+                <a href="{{ url_for('index') }}#destinations" class="hero-btn glow-btn">Explore Destinations</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

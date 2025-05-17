@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - WonderTravel</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/svgs/solid/plane-departure.svg" type="image/svg+xml">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin-panel">
+    <!-- Mobile Toggle -->
+    <div class="admin-mobile-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2><i class="fas fa-globe-americas"></i> WonderTravel</h2>
+            </div>
+            
+            <ul class="admin-menu">
+                <li class="admin-menu-item">
+                    <a href="{{ url_for('admin_dashboard') }}" class="admin-menu-link active">
+                        <i class="fas fa-tachometer-alt admin-menu-icon"></i>
+                        <span class="admin-menu-text">Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="{{ url_for('admin_destinations') }}" class="admin-menu-link">
+                        <i class="fas fa-map-marked-alt admin-menu-icon"></i>
+                        <span class="admin-menu-text">Destinations</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-users admin-menu-icon"></i>
+                        <span class="admin-menu-text">Users</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-bookmark admin-menu-icon"></i>
+                        <span class="admin-menu-text">Bookings</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-chart-bar admin-menu-icon"></i>
+                        <span class="admin-menu-text">Reports</span>
+                    </a>
+                </li>
+                
+                <li class="admin-menu-item">
+                    <a href="#" class="admin-menu-link">
+                        <i class="fas fa-cog admin-menu-icon"></i>
+                        <span class="admin-menu-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="admin-logout">
+                <a href="{{ url_for('admin_logout') }}" class="admin-logout-btn">
+                    <i class="fas fa-sign-out-alt admin-logout-icon"></i>
+                    <span class="admin-logout-text">Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div id="alerts">
+                        {% for category, message in messages %}
+                            <div class="admin-alert admin-alert-{{ category }}">
+                                <p>{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <h1>Dashboard</h1>
+            
+            <!-- Stats Cards -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="stat-title">Total Destinations</div>
+                    <div class="stat-value">{{ destination_count }}</div>
+                    <div class="stat-change">
+                        <i class="fas fa-arrow-up"></i> 12% from last month
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <div class="stat-title">Total Bookings</div>
+                    <div class="stat-value">{{ booking_count }}</div>
+                    <div class="stat-change">
+                        <i class="fas fa-arrow-up"></i> 8% from last month
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-title">Total Users</div>
+                    <div class="stat-value">{{ user_count }}</div>
+                    <div class="stat-change">
+                        <i class="fas fa-arrow-up"></i> 15% from last month
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Bookings -->
+            <div class="admin-table-container">
+                <div class="admin-table-header">
+                    <h2>Recent Bookings</h2>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>User</th>
+                            <th>Destination</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1001</td>
+                            <td>John Doe</td>
+                            <td>Bali, Indonesia</td>
+                            <td>15 Nov, 2023</td>
+                            <td>₹75,000</td>
+                            <td><span style="color: #28a745;">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1002</td>
+                            <td>Jane Smith</td>
+                            <td>Santorini, Greece</td>
+                            <td>12 Nov, 2023</td>
+                            <td>₹95,000</td>
+                            <td><span style="color: #28a745;">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1003</td>
+                            <td>Michael Brown</td>
+                            <td>Kyoto, Japan</td>
+                            <td>10 Nov, 2023</td>
+                            <td>₹85,000</td>
+                            <td><span style="color: #ffc107;">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1004</td>
+                            <td>Sarah Johnson</td>
+                            <td>Swiss Alps, Switzerland</td>
+                            <td>08 Nov, 2023</td>
+                            <td>₹135,000</td>
+                            <td><span style="color: #28a745;">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1005</td>
+                            <td>Robert Wilson</td>
+                            <td>Paris, France</td>
+                            <td>05 Nov, 2023</td>
+                            <td>₹110,000</td>
+                            <td><span style="color: #dc3545;">Cancelled</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="admin-table-container">
+                <div class="admin-table-header">
+                    <h2>Popular Destinations</h2>
+                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Destination</th>
+                            <th>Total Bookings</th>
+                            <th>Revenue</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bali, Indonesia</td>
+                            <td>145</td>
+                            <td>₹10,875,000</td>
+                            <td>4.8/5</td>
+                        </tr>
+                        <tr>
+                            <td>Santorini, Greece</td>
+                            <td>112</td>
+                            <td>₹10,640,000</td>
+                            <td>4.9/5</td>
+                        </tr>
+                        <tr>
+                            <td>Paris, France</td>
+                            <td>98</td>
+                            <td>₹10,780,000</td>
+                            <td>4.7/5</td>
+                        </tr>
+                        <tr>
+                            <td>Swiss Alps, Switzerland</td>
+                            <td>87</td>
+                            <td>₹11,745,000</td>
+                            <td>4.8/5</td>
+                        </tr>
+                        <tr>
+                            <td>Kyoto, Japan</td>
+                            <td>76</td>
+                            <td>₹6,460,000</td>
+                            <td>4.6/5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Scripts -->
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

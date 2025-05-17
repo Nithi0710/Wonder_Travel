@@ -1,0 +1,22 @@
+# Tourist Management System Requirements
+# These are the packages required for the project
+
+# Flask and related packages
+flask==3.0.2
+flask-cors==5.0.1
+flask-session==0.8.0
+flask-sqlalchemy==3.1.1
+gunicorn==23.0.0
+
+# Database
+sqlalchemy==2.0.28
+psycopg2-binary==2.9.10
+
+# Utilities
+werkzeug==3.0.1
+email-validator==2.1.1
+requests==2.32.3
+
+# Note: In Replit, these packages are managed through the package manager
+# and shouldn't be directly installed through requirements.txt.
+# This file is for reference only.

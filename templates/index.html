@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+{% block title %}WonderTravel - Discover Amazing Destinations{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content animate-fadeIn">
+            <h1 class="hero-title">Explore the World's Most Beautiful Destinations</h1>
+            <p class="hero-subtitle">Discover breathtaking places, create unforgettable memories, and experience the journey of a lifetime with our premium tour packages.</p>
+            <a href="#destinations" class="hero-btn glow-btn">Explore Destinations</a>
+        </div>
+    </div>
+</section>
+
+<!-- Destinations Section -->
+<section id="destinations" class="destinations">
+    <div class="container">
+        <h2 class="section-title animate-fadeIn">Popular Destinations</h2>
+        
+        <div class="destinations-grid">
+            {% for destination in destinations %}
+                <div class="destination-card animate-fadeIn" data-delay="{{ loop.index0 * 0.1 }}">
+                    <img src="{{ destination.image_url }}" alt="{{ destination.name }}" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">{{ destination.name }}</h3>
+                        <p class="destination-description">{{ destination.description }}</p>
+                        <div class="destination-price">₹{{ "{:,.0f}".format(destination.price) }}</div>
+                        {% if is_logged_in %}
+                            <a href="{{ url_for('booking', destination_id=destination.id) }}" class="book-btn glow-btn">Book Now</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="book-btn glow-btn">Login to Book</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="no-destinations">
+                    <p>No destinations available at the moment. Please check back later.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title animate-fadeIn">Why Choose WonderTravel</h2>
+        
+        <div class="destinations-grid">
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.1">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3 class="feature-title">Handpicked Destinations</h3>
+                <p>We carefully select the most beautiful and unique destinations around the world to ensure unforgettable experiences.</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.2">
+                <div class="feature-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3 class="feature-title">Best Price Guarantee</h3>
+                <p>We offer competitive prices and special deals to make your dream vacation affordable without compromising quality.</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.3">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="feature-title">24/7 Customer Support</h3>
+                <p>Our dedicated support team is available around the clock to assist you with any questions or concerns during your journey.</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn hover-card" data-delay="0.4">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Secure Booking Process</h3>
+                <p>Book with confidence knowing that your personal information and payment details are protected by our secure system.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container">
+        <h2 class="section-title animate-fadeIn">What Our Travelers Say</h2>
+        
+        <div class="destinations-grid">
+            <div class="feature-card animate-fadeIn" data-delay="0.1">
+                <div class="feature-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p>"WonderTravel made our honeymoon trip to Bali absolutely perfect! Everything from accommodation to activities was well-organized and exceeded our expectations."</p>
+                <h3 class="feature-title">Priya & Rahul</h3>
+                <p>Bali, Indonesia</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn" data-delay="0.2">
+                <div class="feature-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p>"My family trip to Switzerland was the best vacation we've ever had! The scenic beauty was breathtaking and the itinerary was perfect for everyone, including our kids."</p>
+                <h3 class="feature-title">Amit Sharma</h3>
+                <p>Swiss Alps, Switzerland</p>
+            </div>
+            
+            <div class="feature-card animate-fadeIn" data-delay="0.3">
+                <div class="feature-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+                <p>"As a solo traveler, safety was my priority. WonderTravel ensured I had a comfortable, secure, and memorable experience exploring the beautiful streets of Kyoto."</p>
+                <h3 class="feature-title">Sneha Patel</h3>
+                <p>Kyoto, Japan</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+    <div class="container">
+        <div class="feature-card animate-fadeIn" style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <h2>Ready to Embark on Your Dream Vacation?</h2>
+            <p>Sign up today and start planning your perfect getaway with our exclusive deals and premium packages.</p>
+            <div style="margin-top: 20px;">
+                <a href="{{ url_for('signup') }}" class="hero-btn glow-btn">Sign Up Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
