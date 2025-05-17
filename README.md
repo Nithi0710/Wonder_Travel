@@ -49,13 +49,3 @@ gunicorn --bind 0.0.0.0:5000 --reuse-port --reload main:app
 - `templates/` - HTML templates
 - `static/` - CSS, JavaScript, and media files
 
-## Admin Access
-
-- Default admin credentials:
-  - Username: admin
-  - Password: admin123
-- Access admin panel at `/admin/login`
-
-## License
-
-MIT
